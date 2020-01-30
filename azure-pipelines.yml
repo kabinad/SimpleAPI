@@ -20,7 +20,17 @@ steps:
       packageType: sdk
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
-
+    
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'VSTest'
+      testResultsFiles: '**/TEST-*.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: 'Run SimpleApi tests'
+      publishRunAttachments: false
+      
   - task: DotNetCoreCLI@2
     displayName: "Test"
     inputs:
