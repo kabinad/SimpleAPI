@@ -24,7 +24,7 @@ steps:
     displayName: "Test"
     inputs:
       command: test
-      projects: '**/*test/*.csproj'
+      projects: './test/SimpleAPI.Test/*.csproj'
       arguments: '--configuration $(buildConfiguration) --logger trx --results-directory $(System.DefaultWorkingDirectory)/TestResult' 
   - task: PublishTestResults@2
     inputs:
