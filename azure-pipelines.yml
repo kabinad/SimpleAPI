@@ -28,16 +28,16 @@ steps:
     inputs:
       command: test
       projects: '$(System.DefaultWorkingDirectory)/test/SimpleAPI.Test/SimpleAPI.Test.csproj'
-      arguments: '--configuration $(buildConfiguration) --logger trx --results-directory $(System.DefaultWorkingDirectory)/TestResult' 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: 'VSTest'
-      testResultsFiles: '*.trx'
-      searchFolder: '$(System.DefaultWorkingDirectory)/TestResult'
-      mergeTestResults: true
-      failTaskOnFailedTests: true
-      testRunTitle: 'Run SimpleApi tests'
-      publishRunAttachments: false
+      arguments: '--configuration $(buildConfiguration)' 
+  # - task: PublishTestResults@2
+  #   inputs:
+  #     testResultsFormat: 'VSTest'
+  #     testResultsFiles: '*.trx'
+  #     searchFolder: '$(System.DefaultWorkingDirectory)/TestResult'
+  #     mergeTestResults: true
+  #     failTaskOnFailedTests: true
+  #     testRunTitle: 'Run SimpleApi tests'
+  #     publishRunAttachments: false
       
 
       
