@@ -29,17 +29,18 @@ steps:
       command: test
       projects: '$(System.DefaultWorkingDirectory)/test/SimpleAPI.Test/SimpleAPI.Test.csproj'
       arguments: '--configuration $(buildConfiguration)' 
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFormat: 'VSTest'
-  #     testResultsFiles: '*.trx'
-  #     searchFolder: '$(System.DefaultWorkingDirectory)/TestResult'
-  #     mergeTestResults: true
-  #     failTaskOnFailedTests: true
-  #     testRunTitle: 'Run SimpleApi tests'
-  #     publishRunAttachments: false
-      
-
-      
+        
   - script: dotnet build --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
+    
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: 'src/SimpleAPI/SimpleAPI.csproj'
+      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'publish artifacts'
