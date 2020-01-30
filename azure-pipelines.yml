@@ -13,16 +13,33 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use dotnet sdk 3.x'
-  inputs:
-    version: 3.x
-    includePreviewVersions: true
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-    
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  - task: UseDotNet@2 
+    displayName: ".NET Core 3.1.x"
+    inputs:
+      version: '3.1.x'
+      packageType: sdk
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
+
+  # - script: dotnet test '$(System.DefaultWorkingDirectory)/test/SimpleAPI.Test/SimpleAPI.Test.csproj' --configuration $(buildConfiguration) --logger trx --results-directory '$(System.DefaultWorkingDirectory)/TestResult' 
+  #   displayName: 'dotnet build $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    displayName: "Test"
+    inputs:
+      command: test
+      projects: '$(System.DefaultWorkingDirectory)/test/SimpleAPI.Test/SimpleAPI.Test.csproj'
+      arguments: '--configuration $(buildConfiguration)' 
+  # - task: PublishTestResults@2
+  #   inputs:
+  #     testResultsFormat: 'VSTest'
+  #     testResultsFiles: '*.trx'
+  #     searchFolder: '$(System.DefaultWorkingDirectory)/TestResult'
+  #     mergeTestResults: true
+  #     failTaskOnFailedTests: true
+  #     testRunTitle: 'Run SimpleApi tests'
+  #     publishRunAttachments: false
+      
+
+      
+  - script: dotnet build --configuration $(buildConfiguration)
+    displayName: 'dotnet build $(buildConfiguration)'
