@@ -7,4 +7,4 @@ jobs:
 
 - job: Bar
   dependsOn: Foo
-  condition: failed() # this job will only run if Foo fails
+  condition: succeeded() # this job will only run if Foo fails
